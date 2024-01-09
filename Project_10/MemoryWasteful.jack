@@ -6,7 +6,7 @@
 /**
  * Memory operations library.
  */ 
-class Memory {
+class MemoryWasteful {
     static Array ram;
     static int freeBlockPointer;
     static Array heapBasePointer;
@@ -40,30 +40,18 @@ class Memory {
 
         let heapBasePointer = freeBlockPointer;
         let currentBlockSize = heapBasePointer[1];
-        
-        while ((size + 2) > currentBlockSize){
-            let heapBasePointer = heapBasePointer[0];
-            let currentBlockSize = heapBasePointer[1];
-            if(heapBasePointer = 0) {
-                return -1;
-            }
-        }
-        let heapBasePointer[1] = (currentBlockSize - size - 2);
 
-        let blockPointer = ((heapBasePointer + currentBlockSize + 2) - size);
-        let heapBasePointer = blockPointer - 2;
-        let heapBasePointer[0] = 0;
-        let heapBasePointer[1] = size;
+        if (size < (currentBlockSize + 1)) {
+            let blockPointer = (heapBasePointer + currentBlockSize + 2) - size;
+            let heapBasePointer[1] = (currentBlockSize-size);
 
-        return blockPointer; 
+            return blockPointer;
+        } 
+        return -1; 
     }
 
     /** De-allocates the given object and frees its space. */
     function void deAlloc(int object) {
-        let heapBasePointer = object - 2;
-		let heapBasePointer[0] = freeBlockPointer;
-		let freeBlockPointer = heapBasePointer;
-		
         return;
     }    
 }
